@@ -1,6 +1,6 @@
 FROM mysql/mysql-server:8.0
 
-ENV TZ=UTC
+ENV TZ=Asia/Tokyo
 
 RUN <<EOF
   mkdir /var/log/mysql
