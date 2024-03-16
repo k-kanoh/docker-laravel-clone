@@ -3,7 +3,7 @@ FROM php:8.3-fpm-bullseye AS base
 WORKDIR /workspace
 
 # timezone environment
-ENV TZ=UTC \
+ENV TZ=Asia/Tokyo \
   # locale
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
@@ -33,6 +33,10 @@ RUN <<EOF
   composer config -g process-timeout 3600
   composer config -g repos.packagist composer https://packagist.org
 EOF
+
+COPY --from=node:lts-slim /usr/local/bin /usr/local/bin
+COPY --from=node:lts-slim /usr/local/lib /usr/local/lib
+COPY --from=node:lts-slim /opt /opt
 
 FROM base AS development
 
