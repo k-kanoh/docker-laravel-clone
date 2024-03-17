@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\CustomSerializeDate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $TITLE
  * @property string|null $ARTIST
  * @property string|null $ALBUM
- * @property Carbon|null $YEAR
+ * @property int|null    $YEAR
  * @property string|null $CIRCLE
  * @property int|null    $DURATION
  * @property Carbon|null $SONGSTART
@@ -32,13 +33,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Gen extends Model
 {
+    use CustomSerializeDate;
+
     public $incrementing = false;
     public $timestamps = false;
     protected $table = 'gen1';
     protected $primaryKey = 'LASTUPDATE';
 
     protected $casts = [
-        'YEAR' => 'datetime',
+        'YEAR' => 'int',
         'DURATION' => 'int',
         'SONGSTART' => 'datetime',
         'SONGEND' => 'datetime',
