@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\serializeDate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $TITLE
  * @property string|null $ARTIST
  * @property string|null $ALBUM
- * @property Carbon|null $YEAR
+ * @property int|null    $YEAR
  * @property string|null $CIRCLE
  * @property int|null    $DURATION
  * @property Carbon|null $SONGEND
@@ -27,12 +28,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NowPlaying extends Model
 {
+    use serializeDate;
+
     public $incrementing = false;
     public $timestamps = false;
     protected $table = 'nowPlaying';
 
     protected $casts = [
-        'YEAR' => 'datetime',
+        'YEAR' => 'int',
         'DURATION' => 'int',
         'SONGEND' => 'datetime',
         'RATING' => 'float',
