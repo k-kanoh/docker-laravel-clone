@@ -23,6 +23,9 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+        pop: "Mochiy Pop P One",
+        noto: "Noto Sans JP",
+        cherry: "Cherry Bomb One",
       },
       colors: {
         border: "hsl(var(--border))",
