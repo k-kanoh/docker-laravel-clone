@@ -86,7 +86,16 @@
     "typescript-sort-keys/string-enum": "off",
 
     // JSXのプロパティを自動ソート
-    "react/jsx-sort-props": "warn"
+    "react/jsx-sort-props": "warn",
+
+    // tailwindcssのクラス名を自動ソート
+    "tailwindcss/classnames-order": "warn",
+
+    // tailwindcssに存在しないクラス名を検出
+    "tailwindcss/no-custom-classname": [
+      "warn",
+      { "whitelist": ["font-(pop|noto|cherry)"] }
+    ]
   },
   "settings": {
     "react": {
