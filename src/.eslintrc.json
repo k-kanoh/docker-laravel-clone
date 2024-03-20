@@ -1,6 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": ["*.config.*", "vendor"],
+  "ignorePatterns": ["*.config.*", "vendor", "frontend/components/ui"],
   "env": {
     "browser": true,
     "es2021": true,
