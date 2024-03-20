@@ -43,7 +43,7 @@ function App() {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-cyan-100">
-      <div className="flex flex-col justify-center gap-2 rounded-2xl bg-slate-200 px-4 py-10">
+      <div className="font-pop flex flex-col justify-center gap-2 rounded-2xl bg-slate-200 px-4 py-10 tracking-widest">
         <div className="flex gap-2 rounded-sm bg-red-200 p-1">
           <Ball b={bCount} onClick={bClick} pos={Position.Ball1} />
           <Ball b={bCount} onClick={bClick} pos={Position.Ball2} />
@@ -63,7 +63,7 @@ function App() {
           <div>イニング: {sum(batterResult) + bCount + sCount}球</div>
         </div>
         <Button
-          className="bg-blue-500 text-lg hover:bg-blue-600"
+          className="bg-blue-500 text-lg tracking-[.15em] hover:bg-blue-600"
           onClick={() => {
             if (oCount === 3) return;
             setBatterResult([...batterResult, bCount + sCount + 1]);
