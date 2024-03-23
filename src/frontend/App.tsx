@@ -44,16 +44,25 @@ function App() {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-cyan-100">
       <div className="font-pop flex flex-col justify-center gap-2 rounded-2xl bg-slate-200 px-4 py-10 tracking-widest">
-        <div className="flex gap-2 rounded-sm bg-red-200 p-1">
+        <div
+          className="flex gap-2 rounded-sm bg-red-200 p-1"
+          data-testid="bButtons"
+        >
           <Ball b={bCount} onClick={bClick} pos={Position.Ball1} />
           <Ball b={bCount} onClick={bClick} pos={Position.Ball2} />
           <Ball b={bCount} onClick={bClick} pos={Position.Ball3} />
         </div>
-        <div className="flex gap-2 rounded-sm bg-red-200 p-1">
+        <div
+          className="flex gap-2 rounded-sm bg-red-200 p-1"
+          data-testid="sButtons"
+        >
           <Ball onClick={sClick} pos={Position.Strike1} s={sCount} />
           <Ball onClick={sClick} pos={Position.Strike2} s={sCount} />
         </div>
-        <div className="flex gap-2 rounded-sm bg-red-200 p-1">
+        <div
+          className="flex gap-2 rounded-sm bg-red-200 p-1"
+          data-testid="oButtons"
+        >
           <Ball o={oCount} onClick={oClick} pos={Position.Out1} />
           <Ball o={oCount} onClick={oClick} pos={Position.Out2} />
           <Ball o={oCount} onClick={oClick} pos={Position.Out3} />
