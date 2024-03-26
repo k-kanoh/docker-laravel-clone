@@ -57,6 +57,11 @@
             "pattern": "@/**",
             "group": "parent",
             "position": "before"
+          },
+          {
+            "pattern": "./components/ui/**",
+            "group": "external",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": ["builtin"],
@@ -94,7 +99,11 @@
     // tailwindcssに存在しないクラス名を検出
     "tailwindcss/no-custom-classname": [
       "warn",
-      { "whitelist": ["font-(pop|noto|cherry)"] }
+      {
+        "whitelist": [
+          ".+-(background|foreground|card|card-foreground|popover|popover-foreground|primary|primary-foreground|secondary|secondary-foreground|muted|muted-foreground|accent|accent-foreground|destructive|destructive-foreground|border|input|ring)"
+        ]
+      }
     ]
   },
   "settings": {
