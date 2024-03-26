@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
-    Route::apiResource('gen', NowPlayingController::class);
-});
+// Route::group(['middleware' => 'auth:sanctum'], function() {
+//     Route::apiResource('gen', NowPlayingController::class);
+// });
 
-Route::post('login', [UserController::class, 'index']);
+// Route::post('login', [UserController::class, 'index']);
+
+Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);

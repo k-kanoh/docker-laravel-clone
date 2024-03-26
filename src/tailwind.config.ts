@@ -22,10 +22,16 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Figtree", ...defaultTheme.fontFamily.sans],
-        pop: "Mochiy Pop P One",
-        noto: "Noto Sans JP",
-        cherry: "Cherry Bomb One",
+        sans: [
+          "Yu gothic",
+          "Hiragino Kaku Gothic ProN",
+          ...defaultTheme.fontFamily.sans,
+        ],
+        serif: [
+          "Yu Mincho",
+          "Hiragino Mincho ProN",
+          ...defaultTheme.fontFamily.serif,
+        ],
       },
       colors: {
         border: "hsl(var(--border))",
