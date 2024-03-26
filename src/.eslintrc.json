@@ -62,6 +62,11 @@
             "pattern": "@/**",
             "group": "parent",
             "position": "before"
+          },
+          {
+            "pattern": "./components/ui/**",
+            "group": "external",
+            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": ["builtin"],
@@ -94,10 +99,7 @@
     "tailwindcss/classnames-order": "warn",
 
     // tailwindcssに存在しないクラス名を検出
-    "tailwindcss/no-custom-classname": [
-      "warn",
-      { "whitelist": ["font-(pop|noto|cherry)"] }
-    ]
+    "tailwindcss/no-custom-classname": "warn"
   },
   "settings": {
     "react": {
