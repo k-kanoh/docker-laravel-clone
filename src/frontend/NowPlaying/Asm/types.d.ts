@@ -19,3 +19,12 @@ interface GenApiResponseType {
   last_page: number;
   total: number;
 }
+
+interface ScrollableContainerRefProps {
+  scrollableContainerRef: React.RefObject<HTMLDivElement>;
+}
+
+interface PaginationProps {
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}

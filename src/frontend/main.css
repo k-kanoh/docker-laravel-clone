@@ -64,6 +64,10 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+
+  a[aria-disabled="true"] {
+    @apply pointer-events-none text-gray-300 hover:bg-transparent hover:text-gray-300 dark:text-gray-500;
+  }
 }
 
 @layer base {
