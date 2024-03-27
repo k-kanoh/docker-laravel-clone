@@ -16,3 +16,12 @@ interface GenType {
 interface GenApiResponseType {
   data: GenType[];
 }
+
+interface ScrollableContainerRefProps {
+  scrollableContainerRef: React.RefObject<HTMLDivElement>;
+}
+
+interface PaginationProps {
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}
