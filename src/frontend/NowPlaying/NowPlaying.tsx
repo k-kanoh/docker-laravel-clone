@@ -1,5 +1,3 @@
-import { Ref, forwardRef, useEffect, useState } from "react";
-
 import {
   Table,
   TableBody,
@@ -10,26 +8,13 @@ import {
 
 import { GenGridRow } from "./components/GenGridRow";
 import { MyPagination } from "./components/MyPagination";
-import { useGenApiRes } from "./hooks/useGenApiRes";
+import { usePage } from "./providers/page-provider";
 
-const NowPlayingComponent = (
-  { scrollableContainerRef }: ScrollableContainerRefProps,
-  ref: Ref<HTMLDivElement>
-) => {
-  const [page, setPage] = useState((): number => {
-    const pageNumber = sessionStorage.getItem("page");
-    return pageNumber ? parseInt(pageNumber, 10) : 1;
-  });
-
-  const { fetchGenApi, genApiRes } = useGenApiRes();
-
-  useEffect(() => {
-    sessionStorage.setItem("page", page.toString());
-    fetchGenApi(page);
-  }, [page]);
+export function NowPlaying() {
+  const { page, setPage, genApiRes } = usePage();
 
   return (
-    <div className="m-auto 2xl:max-w-[90%]" ref={ref}>
+    <div className="m-auto 2xl:max-w-[90%]">
       <div className="flex flex-col overflow-x-auto">
         <div className="rounded-lg border">
           <Table>
@@ -58,17 +43,8 @@ const NowPlayingComponent = (
         </div>
       </div>
       <div className="mt-2">
-        <MyPagination
-          page={page}
-          scrollableContainerRef={scrollableContainerRef}
-          setPage={setPage}
-        />
+        <MyPagination page={page} setPage={setPage} />
       </div>
     </div>
   );
-};
-
-export const NowPlaying = forwardRef<
-  HTMLDivElement,
-  ScrollableContainerRefProps
->(NowPlayingComponent);
+}
