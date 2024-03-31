@@ -20,18 +20,30 @@ export function NowPlaying() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-20"></TableHead>
-                <TableHead className="min-w-36">TITLE</TableHead>
-                <TableHead className="min-w-36">ARTIST</TableHead>
-                <TableHead className="min-w-36">ALBUM</TableHead>
+                <TableHead />
+                <TableHead>TITLE</TableHead>
+                <TableHead className="hidden sm:table-cell">ARTIST</TableHead>
+                <TableHead className="hidden sm:table-cell">ALBUM</TableHead>
                 <TableHead className="text-center">YEAR</TableHead>
-                <TableHead className="min-w-36">CIRCLE</TableHead>
-                <TableHead className="text-center">DURATION</TableHead>
-                <TableHead className="text-center">SONGEND</TableHead>
-                <TableHead className="text-center">RATING</TableHead>
-                <TableHead className="text-center">WEEK</TableHead>
-                <TableHead className="text-center">MONTH</TableHead>
-                <TableHead className="text-center">YEAR</TableHead>
+                <TableHead>CIRCLE</TableHead>
+                <TableHead className="hidden text-center sm:table-cell">
+                  DURATION
+                </TableHead>
+                <TableHead className="hidden text-center sm:table-cell">
+                  SONGEND
+                </TableHead>
+                <TableHead className="hidden text-center sm:table-cell">
+                  RATING
+                </TableHead>
+                <TableHead className="hidden text-center sm:table-cell">
+                  WEEK
+                </TableHead>
+                <TableHead className="hidden text-center sm:table-cell">
+                  MONTH
+                </TableHead>
+                <TableHead className="hidden text-center sm:table-cell">
+                  YEAR
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
