@@ -23,7 +23,7 @@ export function PlayingCard({ param }: { param: GenType }) {
           </div>
         )}
         <div className="absolute right-2 top-0">
-          <Button className="hover:bg-transparent" variant="ghost">
+          <Button variant="transparent">
             <svg
               className="absolute size-8 fill-pink-500 stroke-pink-500"
               strokeLinecap="round"

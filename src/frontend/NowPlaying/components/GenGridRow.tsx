@@ -28,6 +28,7 @@ export function GenGridRow({ param }: { param: GenType }) {
           </PopoverTrigger>
           <PopoverContent
             className="w-72 border-none bg-transparent p-0 shadow-none sm:w-96"
+            collisionPadding={10}
             side="right"
           >
             <PlayingCard param={param} />
