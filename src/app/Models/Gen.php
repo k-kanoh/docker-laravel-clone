@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Gen
  *
+ * @property int         $ID
  * @property string|null $TITLE
  * @property string|null $ARTIST
  * @property string|null $ALBUM
@@ -23,22 +24,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $SONGEND
  * @property int         $SONGID
  * @property int         $ALBUMID
- * @property string|null $CIRCLELINK
  * @property float|null  $RATING
  * @property int|null    $TIMESRATED
  * @property int|null    $LISTENERS
  * @property Carbon      $LASTUPDATE
- * @property string|null $DEBUG
  * @property string|null $ALBUMART
  */
 class Gen extends Model
 {
     use CustomSerializeDate;
 
-    public $incrementing = false;
     public $timestamps = false;
-    protected $table = 'gen1';
-    protected $primaryKey = 'LASTUPDATE';
+    protected $table = 'gen';
+    protected $primaryKey = 'ID';
 
     protected $casts = [
         'YEAR' => 'int',
@@ -64,11 +62,10 @@ class Gen extends Model
         'SONGEND',
         'SONGID',
         'ALBUMID',
-        'CIRCLELINK',
         'RATING',
         'TIMESRATED',
         'LISTENERS',
-        'DEBUG',
+        'LASTUPDATE',
         'ALBUMART',
     ];
 }

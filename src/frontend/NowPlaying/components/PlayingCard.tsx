@@ -1,3 +1,5 @@
+import { format, setSeconds } from "date-fns";
+
 import { Button } from "@/components/ui/button";
 import {
   CardTitle,
@@ -6,7 +8,15 @@ import {
   Card,
 } from "@/components/ui/card";
 
-export function PlayingCard({ param }: { param: GenType }) {
+export function PlayingCard({
+  param,
+  progress,
+  remainingTime,
+}: {
+  param: GenType;
+  progress: { seconds: number; percentage: string };
+  remainingTime: string;
+}) {
   return (
     <Card className="overflow-hidden shadow-lg dark:shadow-slate-800">
       <div className="relative">
@@ -67,18 +77,31 @@ export function PlayingCard({ param }: { param: GenType }) {
       <div className="px-6 pb-3">
         <div className="w-full">
           <div className="bg-accent relative mt-1 h-1 overflow-hidden rounded">
-            <div className="absolute left-0 top-0 h-full w-1/2 bg-yellow-500" />
+            <div
+              className="absolute left-0 top-0 h-full bg-yellow-500"
+              style={{ width: progress.percentage }}
+            />
           </div>
         </div>
-        <div className="text-muted-foreground mt-3 flex justify-end text-sm">
-          3:35
+        <div className="text-muted-foreground mt-3 flex justify-between text-sm">
+          <div>{format(setSeconds(new Date(0), progress.seconds), "m:ss")}</div>
+          <div>
+            {format(setSeconds(new Date(0), param.DURATION), "m:ss")}
+            <span className="sm:hidden">({remainingTime})</span>
+          </div>
         </div>
       </div>
       <div className="text-muted-foreground grid grid-cols-4 p-2 text-center text-[10px]">
+        <div className="col-span-2">
+          START {format(param.SONGSTART, "M/d H:mm:ss")}
+        </div>
+        <div className="col-span-2">
+          END {format(param.SONGEND, "M/d H:mm:ss")}
+        </div>
         <div>RATING {param.RATING.toFixed(2)}</div>
         <div>WEEK {param.IN_WEEK}</div>
         <div>MONTH {param.IN_MONTH}</div>
-        <div className="">YEAR {param.IN_YEAR}</div>
+        <div>YEAR {param.IN_YEAR}</div>
       </div>
     </Card>
   );

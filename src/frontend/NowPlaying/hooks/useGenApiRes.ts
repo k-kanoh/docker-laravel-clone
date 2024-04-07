@@ -12,6 +12,12 @@ export function useGenApiRes() {
     try {
       const res = await fetch(`https://cixi.sakura.ne.jp/api/gen?page=${page}`);
       const data: GenApiResponseType = await res.json();
+
+      data.data.forEach((x) => {
+        x.SONGSTART = new Date(x.SONGSTART);
+        x.SONGEND = new Date(x.SONGEND);
+      });
+
       setGenApiRes(data);
     } catch (err) {
       console.error(err);
