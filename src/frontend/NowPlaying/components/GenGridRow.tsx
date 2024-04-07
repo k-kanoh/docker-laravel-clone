@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+
+import { format, formatDistanceToNowStrict, setSeconds } from "date-fns";
+import { ja } from "date-fns/locale";
+
 import {
   Popover,
   PopoverContent,
@@ -8,6 +13,47 @@ import { TableRow, TableCell } from "@/components/ui/table";
 import { PlayingCard } from "./PlayingCard";
 
 export function GenGridRow({ param }: { param: GenType }) {
+  const calcProgress = () => {
+    const start = param.SONGSTART.getTime();
+    const end = param.SONGEND.getTime();
+    const now = new Date().getTime();
+
+    let seconds: number;
+    let percentage: string;
+
+    if (now >= end) {
+      seconds = param.DURATION;
+      percentage = "100%";
+    } else {
+      seconds = (now - start) / 1000;
+      percentage = `${((now - start) / (end - start)) * 100}%`;
+    }
+
+    return { seconds, percentage };
+  };
+
+  const [progress, setProgress] = useState(() => calcProgress());
+  const [remainingTime, setRemainingTime] = useState(() =>
+    formatDistanceToNowStrict(param.SONGEND, {
+      locale: ja,
+      addSuffix: true,
+    })
+  );
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress(calcProgress());
+      setRemainingTime(
+        formatDistanceToNowStrict(param.SONGEND, {
+          locale: ja,
+          addSuffix: true,
+        })
+      );
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <TableRow>
       <TableCell className="p-2">
@@ -31,7 +77,11 @@ export function GenGridRow({ param }: { param: GenType }) {
             collisionPadding={10}
             side="right"
           >
-            <PlayingCard param={param} />
+            <PlayingCard
+              param={param}
+              progress={progress}
+              remainingTime={remainingTime}
+            />
           </PopoverContent>
         </Popover>
       </TableCell>
@@ -41,10 +91,10 @@ export function GenGridRow({ param }: { param: GenType }) {
       <TableCell className="text-center">{param.YEAR}</TableCell>
       <TableCell>{param.CIRCLE}</TableCell>
       <TableCell className="hidden text-center sm:table-cell">
-        {param.DURATION}
+        {format(setSeconds(new Date(0), param.DURATION), "m:ss")}
       </TableCell>
-      <TableCell className="hidden text-nowrap sm:table-cell">
-        {param.SONGEND.toString()}
+      <TableCell className="hidden text-center sm:table-cell">
+        {remainingTime}
       </TableCell>
       <TableCell className="hidden text-center sm:table-cell">
         {param.RATING.toFixed(2)}
