@@ -1,5 +1,10 @@
-import { format, setSeconds } from "date-fns";
+import { useState } from "react";
 
+import { format, setSeconds } from "date-fns";
+import { useUpdateEffect } from "react-use";
+import { toast } from "sonner";
+
+import { HeartIcon } from "@/Icons/HeartIcon";
 import { Button } from "@/components/ui/button";
 import {
   CardTitle,
@@ -17,6 +22,26 @@ export function PlayingCard({
   progress: { seconds: number; percentage: string };
   remainingTime: string;
 }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useUpdateEffect(() => {
+    if (isFavorite) {
+      toast.success("お気に入りに登録しました", {
+        duration: 1000,
+        icon: <HeartIcon isFill={isFavorite} />,
+        classNames: {
+          toast: "group-[.toaster]:bg-pink-50",
+          title: "text-red-500",
+        },
+      });
+    } else {
+      toast.success("お気に入りを解除しました", {
+        duration: 1000,
+        icon: <HeartIcon isFill={isFavorite} />,
+      });
+    }
+  }, [isFavorite]);
+
   return (
     <Card className="overflow-hidden shadow-lg dark:shadow-slate-800">
       <div className="relative">
@@ -33,16 +58,11 @@ export function PlayingCard({
           </div>
         )}
         <div className="absolute right-2 top-0">
-          <Button variant="transparent">
-            <svg
-              className="absolute size-8 fill-pink-500 stroke-pink-500"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-            </svg>
+          <Button
+            onClick={() => setIsFavorite(!isFavorite)}
+            variant="transparent"
+          >
+            <HeartIcon className="absolute size-8" isFill={isFavorite} />
           </Button>
         </div>
       </div>

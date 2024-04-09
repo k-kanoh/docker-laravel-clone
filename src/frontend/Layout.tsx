@@ -1,5 +1,7 @@
 import { useRef } from "react";
 
+import { Toaster } from "./components/ui/sonner";
+
 import { Header } from "./Header";
 import { NowPlaying } from "./NowPlaying/NowPlaying";
 import { PageProvider } from "./NowPlaying/providers/page-provider";
@@ -13,6 +15,7 @@ export function Layout() {
         <Header />
         <main className="h-full overflow-y-auto px-4 py-8" ref={mainContainer}>
           <NowPlaying />
+          <Toaster />
         </main>
       </PageProvider>
     </div>
