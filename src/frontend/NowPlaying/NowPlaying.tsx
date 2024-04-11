@@ -8,10 +8,22 @@ import {
 
 import { GenGridRow } from "./components/GenGridRow";
 import { MyPagination } from "./components/MyPagination";
+import { useGenApiQuery } from "./hooks/useGenApiQuery";
 import { usePage } from "./providers/page-provider";
 
 export function NowPlaying() {
-  const { page, setPage, genApiRes } = usePage();
+  const { page, setPage } = usePage();
+  const { genApiRes, isPending } = useGenApiQuery();
+
+  if (isPending) {
+    return (
+      <div className="flex h-full items-center justify-center space-x-2">
+        <div className="size-3 animate-[bounce_0.7s_infinite] rounded-full bg-blue-400" />
+        <div className="size-3 animate-[bounce_0.7s_infinite] rounded-full bg-yellow-400 [animation-delay:-0.2s]" />
+        <div className="size-3 animate-[bounce_0.7s_infinite] rounded-full bg-red-400 [animation-delay:-0.4s]" />
+      </div>
+    );
+  }
 
   return (
     <div className="m-auto 2xl:max-w-[90%]">
@@ -47,7 +59,7 @@ export function NowPlaying() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {genApiRes.data.map((x) => (
+              {genApiRes?.data.map((x) => (
                 <GenGridRow key={x.SONGEND.toString()} param={x} />
               ))}
             </TableBody>
