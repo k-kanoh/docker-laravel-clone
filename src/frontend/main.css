@@ -74,3 +74,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-120%);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.9, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.1, 0, 0.3, 1);
+  }
+}
