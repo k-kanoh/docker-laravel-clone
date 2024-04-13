@@ -13,7 +13,7 @@ export function Layout() {
     <div className="flex h-dvh w-full flex-col">
       <PageProvider onPageChanged={() => mainContainer.current?.scrollTo(0, 0)}>
         <Header />
-        <main className="h-full overflow-y-auto px-4 py-8" ref={mainContainer}>
+        <main className="h-full overflow-y-auto p-4" ref={mainContainer}>
           <NowPlaying />
           <Toaster />
         </main>
