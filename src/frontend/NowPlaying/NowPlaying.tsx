@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,7 +14,7 @@ import { usePage } from "./providers/page-provider";
 
 export function NowPlaying() {
   const { page, setPage } = usePage();
-  const { genApiRes, isPending } = useGenApiQuery();
+  const { genApiRes, isPending, listeners } = useGenApiQuery();
 
   if (isPending) {
     return (
@@ -28,6 +29,11 @@ export function NowPlaying() {
   return (
     <div className="m-auto 2xl:max-w-[90%]">
       <div className="flex flex-col overflow-x-auto">
+        <div className="flex justify-end">
+          <Button className="my-1 h-5 rounded-xl px-2 text-xs">
+            Listeners:{listeners}
+          </Button>
+        </div>
         <div className="rounded-lg border">
           <Table>
             <TableHeader>
