@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Http\Controllers\Api\GenListenersSummaryController;
 use App\Http\Controllers\Api\NowPlayingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +23,5 @@ use Illuminate\Support\Facades\Route;
 // Route::post('login', [UserController::class, 'index']);
 
 Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);
+
+Route::apiResource('listeners', GenListenersSummaryController::class, ['only' => ['index']]);
