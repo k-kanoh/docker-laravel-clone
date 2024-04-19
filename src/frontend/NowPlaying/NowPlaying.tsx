@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
   Table,
   TableBody,
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/table";
 
 import { GenGridRow } from "./components/GenGridRow";
+import { ListenersGraph } from "./components/ListernersGraph/ListenersGraph";
 import { MyPagination } from "./components/MyPagination";
 import { useGenApiQuery } from "./hooks/useGenApiQuery";
 import { usePage } from "./providers/page-provider";
@@ -30,9 +32,19 @@ export function NowPlaying() {
     <div className="m-auto 2xl:max-w-[90%]">
       <div className="flex flex-col overflow-x-auto">
         <div className="flex justify-end">
-          <Button className="my-1 h-5 rounded-xl px-2 text-xs">
-            Listeners:{listeners}
-          </Button>
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button
+                className="my-1 h-5 rounded-xl px-2 text-xs"
+                variant="outline"
+              >
+                Listeners:{listeners}
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <ListenersGraph />
+            </DrawerContent>
+          </Drawer>
         </div>
         <div className="rounded-lg border">
           <Table>

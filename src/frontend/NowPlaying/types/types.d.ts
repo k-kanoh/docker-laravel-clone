@@ -23,3 +23,10 @@ interface GenType {
 interface GenApiResponseType {
   data: GenType[];
 }
+
+type FilterMode =
+  | "recentHourly"
+  | "recentDaily"
+  | "recentMonthly"
+  | "overallHourly"
+  | "overallWeekly";

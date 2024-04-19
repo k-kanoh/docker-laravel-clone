@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Layout } from "./Layout";
 import { ThemeProvider } from "./components/DarkMode/theme-provider";
 
+import "@/utils/dateExtensions";
 import "./main.css";
 
 const queryClient = new QueryClient();
