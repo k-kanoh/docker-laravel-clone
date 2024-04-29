@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\NowPlaying;
+use App\Services\NowPlayingService;
 
 class NowPlayingController extends Controller
 {
+    private $service;
+
+    public function __construct(NowPlayingService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = NowPlaying::paginate(10);
+        $data = $this->service->getNowPlayingList();
 
         return response()->json($data);
     }
