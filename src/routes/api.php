@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\GenListenersSummaryController;
 use App\Http\Controllers\Api\NowPlayingController;
 use App\Http\Controllers\UserController;
@@ -25,3 +26,5 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);
 
 Route::apiResource('listeners', GenListenersSummaryController::class, ['only' => ['index']]);
+
+Route::apiResource('favorite', FavoriteController::class, ['only' => ['store', 'destroy']])->whereNumber('favorite');
