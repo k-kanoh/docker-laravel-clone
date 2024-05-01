@@ -18,6 +18,7 @@ interface GenType {
   IN_WEEK: number;
   IN_MONTH: number;
   IN_YEAR: number;
+  favorited_at: string | null;
 }
 
 interface GenApiResponseType {
