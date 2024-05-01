@@ -1,7 +1,4 @@
-import { useState } from "react";
-
 import { format, setSeconds } from "date-fns";
-import { useUpdateEffect } from "react-use";
 import { toast } from "sonner";
 
 import { HeartIcon } from "@/Icons/HeartIcon";
@@ -13,6 +10,8 @@ import {
   Card,
 } from "@/components/ui/card";
 
+import { useFavoriteMutation } from "../hooks/useFavoriteMutation";
+
 export function PlayingCard({
   param,
   progress,
@@ -22,25 +21,43 @@ export function PlayingCard({
   progress: { seconds: number; percentage: string };
   remainingTime: string;
 }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { addFavoriteMutation, removeFavoriteMutation } = useFavoriteMutation();
 
-  useUpdateEffect(() => {
-    if (isFavorite) {
-      toast.success("お気に入りに登録しました", {
-        duration: 1000,
-        icon: <HeartIcon isFill={isFavorite} />,
-        classNames: {
-          toast: "group-[.toaster]:bg-pink-50",
-          title: "text-red-500",
+  const handleToggleFavoriteState = () => {
+    if (param.favorited_at) {
+      removeFavoriteMutation.mutate(param.ID, {
+        onSuccess: () => {
+          toast.success("お気に入りを解除しました", {
+            icon: <HeartIcon isFill={false} />,
+            classNames: {
+              toast: "group-[.toaster]:bg-white",
+              title: "text-black",
+            },
+          });
+        },
+        onError: (error) => {
+          const e = error as ApiError;
+          toast.error(`${e.status} ${e.message}`);
         },
       });
     } else {
-      toast.success("お気に入りを解除しました", {
-        duration: 1000,
-        icon: <HeartIcon isFill={isFavorite} />,
+      addFavoriteMutation.mutate(param.ID, {
+        onSuccess: () => {
+          toast.success("お気に入りに登録しました", {
+            icon: <HeartIcon isFill={true} />,
+            classNames: {
+              toast: "group-[.toaster]:bg-pink-100",
+              title: "text-red-500",
+            },
+          });
+        },
+        onError: (error) => {
+          const e = error as ApiError;
+          toast.error(`${e.status} ${e.message}`);
+        },
       });
     }
-  }, [isFavorite]);
+  };
 
   return (
     <Card className="overflow-hidden shadow-lg dark:shadow-slate-800">
@@ -58,11 +75,11 @@ export function PlayingCard({
           </div>
         )}
         <div className="absolute right-2 top-0">
-          <Button
-            onClick={() => setIsFavorite(!isFavorite)}
-            variant="transparent"
-          >
-            <HeartIcon className="absolute size-8" isFill={isFavorite} />
+          <Button onClick={handleToggleFavoriteState} variant="transparent">
+            <HeartIcon
+              className="absolute size-8"
+              isFill={!!param.favorited_at}
+            />
           </Button>
         </div>
       </div>

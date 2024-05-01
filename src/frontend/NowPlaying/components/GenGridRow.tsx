@@ -55,7 +55,13 @@ export function GenGridRow({ param }: { param: GenType }) {
   }, []);
 
   return (
-    <TableRow>
+    <TableRow
+      className={
+        param.favorited_at
+          ? "bg-pink-100 hover:bg-pink-200 dark:bg-pink-900 dark:hover:bg-pink-700"
+          : ""
+      }
+    >
       <TableCell className="p-2">
         <Popover>
           <PopoverTrigger>

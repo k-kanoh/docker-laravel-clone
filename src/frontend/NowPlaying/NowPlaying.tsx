@@ -12,11 +12,13 @@ import { GenGridRow } from "./components/GenGridRow";
 import { ListenersGraph } from "./components/ListernersGraph/ListenersGraph";
 import { MyPagination } from "./components/MyPagination";
 import { useGenApiQuery } from "./hooks/useGenApiQuery";
+import { useTopGenApiQuery } from "./hooks/useTopGenApiQuery";
 import { usePage } from "./providers/page-provider";
 
 export function NowPlaying() {
   const { page, setPage } = usePage();
-  const { genApiRes, isPending, listeners } = useGenApiQuery();
+  const { genApiRes, isPending } = useGenApiQuery();
+  const { listeners } = useTopGenApiQuery();
 
   if (isPending) {
     return (
