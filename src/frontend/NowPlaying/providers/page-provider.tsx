@@ -1,15 +1,30 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 interface PageProviderState {
   page: number;
   setPage: (page: number) => void;
   pageReset: () => void;
+  setPagination: (pagination: {
+    isPrevable: boolean;
+    isNextable: boolean;
+  }) => void;
+  paginationElement: JSX.Element;
 }
 
 const PageProviderContext = createContext<PageProviderState>({
   page: 1,
   setPage: () => null,
   pageReset: () => null,
+  setPagination: () => null,
+  paginationElement: <></>,
 });
 
 export function PageProvider({
@@ -37,10 +52,45 @@ export function PageProvider({
     }
   };
 
+  const [pagination, setPagination] = useState({
+    isPrevable: false,
+    isNextable: false,
+  });
+
+  const paginationElement = (
+    <Pagination>
+      <PaginationContent className="gap-5">
+        <PaginationItem>
+          <PaginationPrevious
+            className={
+              pagination.isPrevable
+                ? ""
+                : "text-muted-foreground pointer-events-none"
+            }
+            onClick={() => setPage(page - 1)}
+          />
+        </PaginationItem>
+        <PaginationItem>{page}</PaginationItem>
+        <PaginationItem>
+          <PaginationNext
+            className={
+              pagination.isNextable
+                ? ""
+                : "text-muted-foreground pointer-events-none"
+            }
+            onClick={() => setPage(page + 1)}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
+
   const value = {
     page,
     setPage,
     pageReset,
+    setPagination,
+    paginationElement,
   };
 
   return (
