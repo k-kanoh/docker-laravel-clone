@@ -10,13 +10,12 @@ import {
 
 import { GenGridRow } from "./components/GenGridRow";
 import { ListenersGraph } from "./components/ListernersGraph/ListenersGraph";
-import { MyPagination } from "./components/MyPagination";
 import { useGenApiQuery } from "./hooks/useGenApiQuery";
 import { useTopGenApiQuery } from "./hooks/useTopGenApiQuery";
 import { usePage } from "./providers/page-provider";
 
 export function NowPlaying() {
-  const { page, setPage } = usePage();
+  const { paginationElement } = usePage();
   const { genApiRes, isPending } = useGenApiQuery();
   const { listeners } = useTopGenApiQuery();
 
@@ -86,9 +85,7 @@ export function NowPlaying() {
           </Table>
         </div>
       </div>
-      <div className="mt-2">
-        <MyPagination page={page} setPage={setPage} />
-      </div>
+      <div className="mt-2">{paginationElement}</div>
     </div>
   );
 }

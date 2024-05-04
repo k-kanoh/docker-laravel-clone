@@ -23,6 +23,8 @@ interface GenType {
 
 interface GenApiResponseType {
   data: GenType[];
+  prev_page_url: string | null;
+  next_page_url: string | null;
 }
 
 type FilterMode =
