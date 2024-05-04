@@ -13,8 +13,12 @@ class NowPlayingService
         $this->repository = $repository;
     }
 
-    public function getNowPlayingList()
+    public function getNowPlayingList($favorited_only)
     {
+        if ($favorited_only) {
+            return $this->repository->getNowPlayingListFavoritedOnly();
+        }
+
         return $this->repository->getNowPlayingList();
     }
 

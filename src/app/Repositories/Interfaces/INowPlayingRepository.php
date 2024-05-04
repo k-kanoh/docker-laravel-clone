@@ -6,5 +6,7 @@ interface INowPlayingRepository
 {
     public function getNowPlayingList();
 
+    public function getNowPlayingListFavoritedOnly();
+
     public function getNowPlaying($id);
 }
