@@ -19,7 +19,9 @@ class NowPlayingController extends Controller
      */
     public function index()
     {
-        $data = $this->service->getNowPlayingList();
+        $favorited_only = request()->boolean('favonly');
+
+        $data = $this->service->getNowPlayingList($favorited_only);
 
         return response()->json($data);
     }
