@@ -14,6 +14,14 @@ class NowPlayingRepository implements INowPlayingRepository
             ->paginate(10);
     }
 
+    public function getNowPlayingListFavoritedOnly()
+    {
+        return $this->getNowPlayingQuery()
+            ->whereNotNull('F.created_at')
+            ->orderByDesc('G.ID')
+            ->paginate(10);
+    }
+
     public function getNowPlaying($id)
     {
         return $this->getNowPlayingQuery()
