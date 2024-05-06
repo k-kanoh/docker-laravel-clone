@@ -1,7 +1,9 @@
 import { ApiError } from "@/lib/errors/ApiError";
 
-export const fetchGenApi = async (page: number) => {
-  const response = await fetch(`/api/gen?page=${page}`);
+export const fetchGenApi = async (page: number, favoritedOnly: boolean) => {
+  const response = await fetch(
+    `/api/gen?page=${page}${favoritedOnly ? "&favonly=1" : ""}`
+  );
 
   if (response.ok) {
     const data: GenApiResponseType = await response.json();

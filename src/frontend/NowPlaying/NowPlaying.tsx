@@ -1,3 +1,5 @@
+import { useQueryClient } from "@tanstack/react-query";
+
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
@@ -7,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 import { GenGridRow } from "./components/GenGridRow";
 import { ListenersGraph } from "./components/ListernersGraph/ListenersGraph";
@@ -15,7 +18,8 @@ import { useTopGenApiQuery } from "./hooks/useTopGenApiQuery";
 import { usePage } from "./providers/page-provider";
 
 export function NowPlaying() {
-  const { paginationElement } = usePage();
+  const { setPage, paginationElement, isFavoriteView, setIsFavoriteView } =
+    usePage();
   const { genApiRes, isPending } = useGenApiQuery();
   const { listeners } = useTopGenApiQuery();
 
@@ -29,10 +33,33 @@ export function NowPlaying() {
     );
   }
 
+  const queryClient = useQueryClient();
+
+  const handleToggleFavoriteView = () => {
+    if (isFavoriteView) {
+      queryClient.invalidateQueries({ queryKey: ["genApiRes", true] });
+    }
+
+    setPage(1);
+    setIsFavoriteView(!isFavoriteView);
+  };
+
   return (
     <div className="m-auto 2xl:max-w-[90%]">
       <div className="flex flex-col overflow-x-auto">
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-1">
+          <Button
+            className={cn(
+              "my-1 h-5 rounded-xl px-2 text-xs",
+              isFavoriteView
+                ? "bg-pink-400 text-white hover:bg-pink-500 hover:text-white dark:bg-pink-700 dark:hover:bg-pink-600"
+                : ""
+            )}
+            onClick={handleToggleFavoriteView}
+            variant="outline"
+          >
+            Favorited
+          </Button>
           <Drawer>
             <DrawerTrigger asChild>
               <Button

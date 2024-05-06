@@ -23,8 +23,9 @@ use Illuminate\Support\Facades\Route;
 
 // Route::post('login', [UserController::class, 'index']);
 
-Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);
-
-Route::apiResource('listeners', GenListenersSummaryController::class, ['only' => ['index']]);
+Route::middleware(['delay'])->group(function() {
+    Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);
+    Route::apiResource('listeners', GenListenersSummaryController::class, ['only' => ['index']]);
+});
 
 Route::apiResource('favorite', FavoriteController::class, ['only' => ['store', 'destroy']])->whereNumber('favorite');
