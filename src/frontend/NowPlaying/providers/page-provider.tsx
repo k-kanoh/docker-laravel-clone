@@ -17,6 +17,8 @@ interface PageProviderState {
     isNextable: boolean;
   }) => void;
   paginationElement: JSX.Element;
+  isFavoriteView: boolean;
+  setIsFavoriteView: (isFavoriteView: boolean) => void;
 }
 
 const PageProviderContext = createContext<PageProviderState>({
@@ -25,6 +27,8 @@ const PageProviderContext = createContext<PageProviderState>({
   pageReset: () => null,
   setPagination: () => null,
   paginationElement: <></>,
+  isFavoriteView: false,
+  setIsFavoriteView: () => null,
 });
 
 export function PageProvider({
@@ -38,6 +42,7 @@ export function PageProvider({
   const [page, setPage] = useState(() =>
     parseInt(sessionStorage.getItem("page") ?? "1")
   );
+  const [isFavoriteView, setIsFavoriteView] = useState(false);
 
   useEffect(() => {
     sessionStorage.setItem("page", page.toString());
@@ -91,6 +96,8 @@ export function PageProvider({
     pageReset,
     setPagination,
     paginationElement,
+    isFavoriteView,
+    setIsFavoriteView,
   };
 
   return (
