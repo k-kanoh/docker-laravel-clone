@@ -9,8 +9,8 @@ export function useTopGenApiQuery() {
   const [listeners, setListeners] = useState(0);
 
   const { data, isSuccess } = useQuery<GenApiResponseType>({
-    queryKey: ["genApiRes", 1],
-    queryFn: () => fetchGenApi(1),
+    queryKey: ["genApiRes", false, 1],
+    queryFn: () => fetchGenApi(1, false),
     staleTime: 10 * 60 * 1000,
   });
 
