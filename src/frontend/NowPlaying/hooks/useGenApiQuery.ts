@@ -7,15 +7,15 @@ import { fetchGenApi } from "@/lib/api/genApi";
 import { usePage } from "../providers/page-provider";
 
 export function useGenApiQuery() {
-  const { page, setPagination } = usePage();
+  const { page, setPagination, isFavoriteView } = usePage();
 
   const {
     data: genApiRes,
     isPending,
     isSuccess,
   } = useQuery({
-    queryKey: ["genApiRes", page],
-    queryFn: () => fetchGenApi(page),
+    queryKey: ["genApiRes", isFavoriteView, page],
+    queryFn: () => fetchGenApi(page, isFavoriteView),
     staleTime: 10 * 60 * 1000,
   });
 
@@ -32,7 +32,7 @@ export function useGenApiQuery() {
 
   const replaceGenApiRes = (replaceRecord: GenType) => {
     queryClient.setQueryData(
-      ["genApiRes", page],
+      ["genApiRes", isFavoriteView, page],
       (oldData: GenApiResponseType) => {
         return {
           ...oldData,
