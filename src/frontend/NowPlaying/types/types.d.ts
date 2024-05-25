@@ -10,9 +10,9 @@ interface GenType {
   SONGEND: Date;
   SONGID: number;
   ALBUMID: number;
-  RATING: number;
-  TIMESRATED: number;
-  LISTENERS: number;
+  RATING: number | null;
+  TIMESRATED: number | null;
+  LISTENERS: number | null;
   LASTUPDATE: string;
   ALBUMART: string | null;
   IN_WEEK: number;
