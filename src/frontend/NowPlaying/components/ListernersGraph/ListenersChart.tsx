@@ -45,12 +45,12 @@ export function ListenersChart({
         colors={["#16A34A"]}
         data={data}
         enableLabel
-        gridYValues={5}
+        gridYValues={9}
         indexBy="name"
         keys={["listeners"]}
         labelSkipHeight={1}
         margin={{ top: 20, right: 10, bottom: 23, left: 23 }}
-        maxValue={60}
+        maxValue={80}
         padding={0.2}
         role="application"
         theme={{

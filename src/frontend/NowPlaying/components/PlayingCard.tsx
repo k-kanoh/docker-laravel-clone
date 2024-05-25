@@ -135,7 +135,7 @@ export function PlayingCard({
         <div className="col-span-2">
           END {format(param.SONGEND, "M/d H:mm:ss")}
         </div>
-        <div>RATING {param.RATING.toFixed(2)}</div>
+        <div>RATING {param.RATING?.toFixed(2) ?? "-"}</div>
         <div>WEEK {param.IN_WEEK}</div>
         <div>MONTH {param.IN_MONTH}</div>
         <div>YEAR {param.IN_YEAR}</div>

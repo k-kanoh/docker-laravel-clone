@@ -103,7 +103,7 @@ export function GenGridRow({ param }: { param: GenType }) {
         {remainingTime}
       </TableCell>
       <TableCell className="hidden text-center sm:table-cell">
-        {param.RATING.toFixed(2)}
+        {param.RATING?.toFixed(2) ?? "-"}
       </TableCell>
       <TableCell className="hidden text-center sm:table-cell">
         {param.IN_WEEK}

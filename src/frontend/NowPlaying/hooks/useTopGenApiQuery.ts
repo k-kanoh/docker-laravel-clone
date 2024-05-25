@@ -6,7 +6,7 @@ import { addSeconds } from "date-fns";
 import { fetchGenApi } from "@/lib/api/genApi";
 
 export function useTopGenApiQuery() {
-  const [listeners, setListeners] = useState(0);
+  const [listeners, setListeners] = useState<number | null>(0);
 
   const { data, isSuccess } = useQuery<GenApiResponseType>({
     queryKey: ["genApiRes", false, 1],
@@ -20,7 +20,7 @@ export function useTopGenApiQuery() {
     if (isSuccess && data.data[0]) {
       setListeners(data.data[0].LISTENERS);
 
-      const reload = addSeconds(new Date(data.data[0].SONGEND), 15);
+      const reload = addSeconds(new Date(data.data[0].SONGEND), 5);
       const reloadRemaining = reload.valueOf() - new Date().valueOf();
 
       if (reloadRemaining > 0) {
