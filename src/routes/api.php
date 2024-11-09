@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\GenListenersSummaryController;
 use App\Http\Controllers\Api\NowPlayingController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +15,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-// Route::group(['middleware' => 'auth:sanctum'], function() {
-//     Route::apiResource('gen', NowPlayingController::class);
-// });
-
-// Route::post('login', [UserController::class, 'index']);
 
 Route::middleware(['delay'])->group(function() {
     Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);
