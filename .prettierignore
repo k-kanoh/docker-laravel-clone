@@ -1,2 +1,1 @@
-vendor
-src/frontend/components/ui
+frontend/**/src/components/ui
