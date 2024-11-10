@@ -38,15 +38,10 @@ export function PageProvider({
   children: React.ReactNode;
   onPageChanged?: () => void;
 }) {
-  const [page, setPage] = useState(() =>
-    parseInt(sessionStorage.getItem("page") ?? "1")
-  );
+  const [page, setPage] = useState(1);
   const [isFavoriteView, setIsFavoriteView] = useState(false);
 
-  useEffect(() => {
-    sessionStorage.setItem("page", page.toString());
-    onPageChanged?.();
-  }, [page]);
+  useEffect(() => onPageChanged?.(), [page]);
 
   const pageReset = () => {
     if (page === 1) {
