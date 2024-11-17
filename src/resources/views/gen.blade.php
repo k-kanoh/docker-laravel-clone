@@ -1,3 +1,7 @@
+@php
+    $manifest = json_decode(file_get_contents(public_path('genbuild/.vite/manifest.json')), true);
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -9,10 +13,19 @@
 
     <title>砕月</title>
 
-    <link rel="preload" as="style" href="/genbuild/main.css" />
-    <link rel="modulepreload" href="/genbuild/main.js" />
-    <link rel="stylesheet" href="/genbuild/main.css" />
-    <script type="module" src="/genbuild/main.js"></script>
+    @foreach ($manifest as $entry)
+        @if (isset($entry['css']))
+            @foreach ($entry['css'] as $css)
+                <link rel="stylesheet" href="/genbuild/{{ $css }}" />
+            @endforeach
+        @endif
+
+        <link rel="modulepreload" href="/genbuild/{{ $entry['file'] }}" />
+        @if (isset($entry['isEntry']) && $entry['isEntry'])
+            <script type="module" src="/genbuild/{{ $entry['file'] }}"></script>
+        @endif
+    @endforeach
+
 </head>
 
 <body class="font-sans antialiased">
