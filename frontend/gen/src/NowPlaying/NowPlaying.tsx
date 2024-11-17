@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -10,16 +11,22 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { GenGridRow } from "./components/GenGridRow";
-import { ListenersGraph } from "./components/ListernersGraph/ListenersGraph";
 import { useGenApiQuery } from "./hooks/useGenApiQuery";
 import { useTopGenApiQuery } from "./hooks/useTopGenApiQuery";
 import { usePage } from "./providers/page-provider";
+
+const ListenersGraph = lazy(() =>
+  import("./components/ListernersGraph/ListenersGraph").then((module) => ({
+    default: module.ListenersGraph,
+  }))
+);
 
 export function NowPlaying() {
   const { setPage, paginationElement, isFavoriteView, setIsFavoriteView } =
     usePage();
   const { genApiRes, isPending } = useGenApiQuery();
   const { listeners } = useTopGenApiQuery();
+  const queryClient = useQueryClient();
 
   if (isPending) {
     return (
@@ -30,8 +37,6 @@ export function NowPlaying() {
       </div>
     );
   }
-
-  const queryClient = useQueryClient();
 
   const handleToggleFavoriteView = () => {
     if (isFavoriteView) {
@@ -68,7 +73,9 @@ export function NowPlaying() {
               </Button>
             </DrawerTrigger>
             <DrawerContent>
-              <ListenersGraph />
+              <Suspense>
+                <ListenersGraph />
+              </Suspense>
             </DrawerContent>
           </Drawer>
         </div>
