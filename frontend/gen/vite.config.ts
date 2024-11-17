@@ -6,12 +6,10 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "../../src/public/genbuild",
+    emptyOutDir: true,
+    manifest: true,
     rollupOptions: {
       input: "src/main.tsx",
-      output: {
-        entryFileNames: "[name].js",
-        assetFileNames: "[name].[ext]",
-      },
     },
   },
   server: {
