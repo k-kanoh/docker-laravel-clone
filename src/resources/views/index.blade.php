@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">狩野健一のWebサイト</x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 dark:text-gray-200 leading-tight">
             狩野健一のWebサイト
