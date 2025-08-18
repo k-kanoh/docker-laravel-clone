@@ -18,6 +18,16 @@
               </a>
             </li>
             <li class="rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800">
+              <a class="block rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700" href="/thssren.html">
+                <div class="text-lg font-semibold text-yellow-600 dark:text-yellow-400">
+                  thssren(東方スクショリネーマー)
+                </div>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  歯抜けになった東方スクショファイルを000から振りなおします。
+                </p>
+              </a>
+            </li>
+            <li class="rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800">
               <a class="pointer-events-none block rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700" href="/barcode">
                 <div class="text-lg font-semibold text-gray-400">Barcode Reader</div>
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">開発中</p>
