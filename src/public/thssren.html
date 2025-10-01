@@ -113,7 +113,20 @@
       }
 
       function processFiles(files) {
-        const sortedFiles = files.sort((a, b) => a.name.localeCompare(b.name));
+        const sortedFiles = files.sort((a, b) => {
+          const pattern = /([0-9]{3,})\.(bmp|png)$/i;
+          const matchA = a.name.match(pattern);
+          const matchB = b.name.match(pattern);
+
+          if (matchA && matchB) {
+            const numA = Number(matchA[1]);
+            const numB = Number(matchB[1]);
+            return numA - numB;
+          }
+
+          return a.name.localeCompare(b.name);
+        });
+
         const pattern = /(th[0-9_]*?)[0-9]{3,}\.(bmp|png)$/i;
         const path = directoryPath.value.trim();
 
