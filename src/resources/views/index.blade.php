@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-xl">
                 <div class="p-6">
                     <ul class="space-y-4">
@@ -38,6 +38,26 @@
                             </a>
                         </li>
                     </ul>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-xl">
+                <div class="p-6">
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">技術メモ</h3>
+                    <div class="text-sm pl-4">
+                        @foreach ($posts as $post)
+                            <div
+                                class="group flex items-baseline gap-4 py-1.5 border-b border-gray-100 dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                <span class="text-gray-400 dark:text-gray-500 text-xs w-16 flex-shrink-0">
+                                    {{ date('Y/m/d', $post['updated_at']) }}
+                                </span>
+                                <a href="{{ route('md.show', $post['id']) }}"
+                                    class="text-gray-700 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
+                                    {{ $post['title'] }}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
