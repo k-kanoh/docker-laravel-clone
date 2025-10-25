@@ -1,5 +1,7 @@
 *
 !.gitignore
+!.gitkeep
+!images
 !.htaccess
 !index.php
 !robots.txt

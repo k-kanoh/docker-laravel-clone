@@ -16,7 +16,7 @@
 </head>
 
 <body class="font-sans antialiased">
-  <div class="h-dvh bg-gray-100 dark:bg-gray-900">
+  <div class="min-h-dvh bg-gray-100 dark:bg-gray-900">
 
     <!-- Page Heading -->
     @if (isset($header))
