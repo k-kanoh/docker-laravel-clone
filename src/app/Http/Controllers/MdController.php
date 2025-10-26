@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\GetArticles;
 use Illuminate\Support\Facades\File;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class MdController extends Controller
 {
+    use GetArticles;
+
     public function top()
     {
-        $posts = $this->getPosts();
+        $articles = $this->getArticles();
 
-        return view('index', compact('posts'));
+        return view('top', compact('articles'));
     }
 
     public function show(string $id)
     {
-        $file = collect($this->getPosts())->first(fn($x) => $x['id'] === $id);
+        $file = collect($this->getArticles())->first(fn($x) => $x['id'] === $id);
 
         if ($file === null) {
             abort(404);
@@ -29,33 +32,11 @@ class MdController extends Controller
 
         $html = $converter->convert(File::get($file['filepath']))->getContent();
 
-        $article = [...$file, 'html' => $html];
+        $article = [
+            ...$file,
+            'html' => $html,
+        ];
 
         return view('md', $article);
-    }
-
-    private function getPosts() : array
-    {
-        $posts = [];
-
-        $files = File::glob(resource_path('markdown/*.md'));
-
-        foreach ($files as $file) {
-            $filename = basename($file);
-
-            $posts[] = [
-                'id' => md5($filename),
-                'filepath' => $file,
-                'filename' => $filename,
-                'title' => preg_replace('/\.(claude\.)?md$/', '', $filename),
-                'updated_at' => filemtime($file),
-            ];
-        }
-
-        usort($posts, function($a, $b) {
-            return $b['updated_at'] <=> $a['updated_at'];
-        });
-
-        return $posts;
     }
 }

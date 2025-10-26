@@ -5,6 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ $title }}</title>
+  <link href="{{ url()->current() }}" rel="canonical">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "狩野健一のWebサイト",
+          "item": "{{ url("/") }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ $title }}"
+        }
+      ]
+    }
+  </script>
   @vite(['resources/css/a.css'])
   <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
