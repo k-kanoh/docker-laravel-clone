@@ -6,7 +6,6 @@
 
 <head>
   <meta charset="utf-8">
-  <link type="image/svg+xml" href="/vite.svg" rel="icon" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>砕月</title>

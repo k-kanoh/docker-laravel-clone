@@ -1,5 +1,34 @@
 <x-app-layout>
   <x-slot name="title">狩野健一のWebサイト</x-slot>
+  @push('head')
+    <meta name="description" content="狩野健一のWebサイト。個人開発のWebアプリケーション、東方Project関連ツール、プログラミングやサーバ構築の備忘録など。">
+    <link href="{{ url('/') }}" rel="canonical">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "狩野健一のWebサイト",
+        "url": "{{ url("/") }}",
+        "description": "狩野健一のWebサイト。個人開発のWebアプリケーション、東方Project関連ツール、プログラミングやサーバ構築の備忘録など。"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+          @foreach ($articles as $i => $article)
+          {
+            "@type": "ListItem",
+            "position": {{ $i + 1 }},
+            "url": "{{ route('md.show', $article['id']) }}",
+            "name": "{{ $article['title'] }}"
+          }@if(!$loop->last),@endif
+          @endforeach
+        ]
+      }
+    </script>
+  @endpush
   <x-slot name="header">
     <h2 class="text-2xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
       狩野健一のWebサイト
@@ -40,15 +69,15 @@
         <div class="p-6">
           <h3 class="mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200">技術メモ</h3>
           <div class="pl-4 text-sm">
-            @foreach ($posts as $post)
+            @foreach ($articles as $article)
               <div
                 class="group flex items-baseline gap-4 border-b border-gray-100 py-1.5 last:border-0 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/50">
                 <span class="w-16 flex-shrink-0 text-xs text-gray-400 dark:text-gray-500">
-                  {{ date('Y/m/d', $post['updated_at']) }}
+                  {{ date('Y/m/d', $article['updated_at']) }}
                 </span>
                 <a class="text-gray-700 transition-colors group-hover:text-yellow-600 dark:text-gray-300 dark:group-hover:text-yellow-400"
-                  href="{{ route('md.show', $post['id']) }}">
-                  {{ $post['title'] }}
+                  href="{{ route('md.show', $article['id']) }}">
+                  {{ $article['title'] }}
                 </a>
               </div>
             @endforeach

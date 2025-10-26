@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use App\Http\Controllers\MdController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,7 @@ Route::get('/', [MdController::class, 'top'])->name('top');
 Route::get('/gen', fn() => view('gen'));
 
 Route::get('/barcode', fn() => view('barcode'));
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 Route::get('/{id}', [MdController::class, 'show'])->name('md.show')->where('id', '[a-f0-9]{32}');
