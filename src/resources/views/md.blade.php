@@ -7,6 +7,29 @@
 
     <title>{{ $title }}</title>
 
+    @if (!empty($description))
+        <meta name="description" content="{{ $description }}">
+    @endif
+    <link rel="canonical" href="{{ url()->current() }}">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "狩野健一のWebサイト",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ $title }}"
+            }
+        ]
+    }
+    </script>
     @vite(['resources/css/a.css'])
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
