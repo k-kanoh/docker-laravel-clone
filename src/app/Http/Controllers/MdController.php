@@ -12,14 +12,14 @@ class MdController extends Controller
 
     public function top()
     {
-        $articles = $this->getArticles();
+        $articles = $this->getArticles(auth()->check());
 
         return view('top', compact('articles'));
     }
 
     public function show(string $id)
     {
-        $file = collect($this->getArticles())->first(fn($x) => $x['id'] === $id);
+        $file = collect($this->getArticles(auth()->check()))->first(fn($x) => $x['id'] === $id);
 
         if ($file === null) {
             abort(404);

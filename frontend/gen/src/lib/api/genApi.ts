@@ -2,7 +2,13 @@ import { ApiError } from "@/lib/errors/ApiError";
 
 export const fetchGenApi = async (page: number, favoritedOnly: boolean) => {
   const response = await fetch(
-    `/api/gen?page=${page}${favoritedOnly ? "&favonly=1" : ""}`
+    `/api/gen?page=${page}${favoritedOnly ? "&favonly=1" : ""}`,
+    {
+      headers: {
+        Accept: "application/json",
+      },
+      credentials: "same-origin",
+    }
   );
 
   if (response.ok) {

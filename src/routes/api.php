@@ -20,4 +20,6 @@ Route::apiResource('gen', NowPlayingController::class, ['only' => ['index']]);
 
 Route::apiResource('listeners', GenListenersSummaryController::class, ['only' => ['index']]);
 
-Route::apiResource('favorite', FavoriteController::class, ['only' => ['store', 'destroy']])->whereNumber('favorite');
+Route::middleware('auth:sanctum')->group(function() {
+    Route::apiResource('favorite', FavoriteController::class, ['only' => ['store', 'destroy']])->whereNumber('favorite');
+});
