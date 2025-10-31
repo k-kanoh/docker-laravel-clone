@@ -6,9 +6,16 @@ use Illuminate\Support\Facades\File;
 
 trait GetArticles
 {
-    private function getArticles() : array
+    private function getArticles(bool $withSubDir) : array
     {
-        $files = File::glob(resource_path('markdown/*.md'));
+        if ($withSubDir) {
+            $files = collect(File::allFiles(resource_path('markdown')))
+                ->filter(fn($x) => $x->getExtension() === 'md')
+                ->map(fn($x) => $x->getPathname())
+                ->toArray();
+        } else {
+            $files = File::glob(resource_path('markdown/*.md'));
+        }
 
         $articles = [];
 

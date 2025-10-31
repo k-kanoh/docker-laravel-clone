@@ -6,8 +6,10 @@ export const addFavorite = async (id: number) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Accept: "application/json",
       "X-CSRF-Token": getCSRFToken(),
     },
+    credentials: "same-origin",
     body: JSON.stringify({ id }),
   });
 
@@ -25,8 +27,10 @@ export const removeFavorite = async (id: number) => {
   const response = await fetch(`/api/favorite/${id}`, {
     method: "DELETE",
     headers: {
+      Accept: "application/json",
       "X-CSRF-Token": getCSRFToken(),
     },
+    credentials: "same-origin",
   });
 
   if (response.ok) {

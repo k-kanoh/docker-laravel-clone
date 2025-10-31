@@ -25,7 +25,7 @@ class SitemapController extends Controller
         $xml .= '<priority>0.6</priority>';
         $xml .= '</url>';
 
-        $articles = $this->getArticles();
+        $articles = $this->getArticles(false);
 
         foreach ($articles as $article) {
             $xml .= '<url>';
