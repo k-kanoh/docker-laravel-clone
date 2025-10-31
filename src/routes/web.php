@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MdController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/', [MdController::class, 'top'])->name('top');
 

@@ -2,7 +2,13 @@ import { ApiError } from "@/lib/errors/ApiError";
 
 export const listenersApi = async (filterMode: FilterMode, date: Date) => {
   const response = await fetch(
-    `/api/listeners?mode=${filterMode}&ymd=${date.toShortDateString()}`
+    `/api/listeners?mode=${filterMode}&ymd=${date.toShortDateString()}`,
+    {
+      headers: {
+        Accept: "application/json",
+      },
+      credentials: "same-origin",
+    }
   );
 
   if (response.ok) {
