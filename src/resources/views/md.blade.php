@@ -30,7 +30,13 @@
         ]
     }
     </script>
-    @vite(['resources/css/a.css'])
+    @if ($theme === 'b')
+        @vite(['resources/css/b.css'])
+    @elseif($theme === 'c')
+        @vite(['resources/css/c.css'])
+    @else
+        @vite(['resources/css/a.css'])
+    @endif
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>

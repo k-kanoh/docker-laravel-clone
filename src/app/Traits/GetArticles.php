@@ -18,16 +18,31 @@ trait GetArticles
         }
 
         $articles = [];
+        $colors = [];
+        $i = 1;
 
         foreach ($files as $file) {
             $filename = basename($file);
 
+            $parts = explode('.', $filename);
+            $title = $parts[0];
+            $theme = collect($parts)->skip(1)->first(fn($x) => preg_match('/^[a-c]$/', $x));
+            $group = str_replace(resource_path('markdown'), '', dirname($file));
+            $group = trim($group, '/') ?: null;
+
+            if ($group && !array_key_exists($group, $colors)) {
+                $colors[$group] = $i++;
+            }
+
             $articles[] = [
-                'id' => md5($filename),
+                'id' => md5($title),
                 'filepath' => $file,
                 'filename' => $filename,
-                'title' => preg_replace('/\.(claude\.)?md$/', '', $filename),
+                'title' => $title,
                 'updated_at' => filemtime($file),
+                'theme' => $theme,
+                'group' => $group,
+                'color' => $group ? $colors[$group] : null,
             ];
         }
 

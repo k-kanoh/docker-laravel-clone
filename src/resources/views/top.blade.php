@@ -184,6 +184,10 @@
                                         </span>
                                         <a href="{{ route('md.show', $article['id']) }}"
                                             class="text-gray-700 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
+                                            @if ($article['group'])
+                                                <span
+                                                    class="article-group-label color-{{ $article['color'] }}">{{ $article['group'] }}</span>
+                                            @endif
                                             {{ $article['title'] }}
                                         </a>
                                     </div>
