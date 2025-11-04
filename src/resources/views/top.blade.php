@@ -174,6 +174,9 @@
                     </span>
                     <a class="text-gray-700 transition-colors group-hover:text-yellow-600 dark:text-gray-300 dark:group-hover:text-yellow-400"
                       href="{{ route('md.show', $article['id']) }}">
+                      @if ($article['group'])
+                        <span class="article-group-label color-{{ $article['color'] }}">{{ $article['group'] }}</span>
+                      @endif
                       {{ $article['title'] }}
                     </a>
                   </div>
