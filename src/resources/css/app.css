@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.article-group-label {
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  font-size: 0.75em;
+  padding: 3px;
+  border-radius: 3px;
+  margin-right: 2px;
+  font-weight: 500;
+}
+
+.color-1 {
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+.dark .color-1 {
+  background-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+.color-2 {
+  background-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.dark .color-3 {
+  background-color: #1e3a8a;
+  color: #93c5fd;
+}
+
+.color-3 {
+  background-color: #bbf7d0;
+  color: #15803d;
+}
+
+.dark .color-3 {
+  background-color: #14532d;
+  color: #86efac;
+}
+
+.color-4 {
+  background-color: #fed7aa;
+  color: #c2410c;
+}
+
+.dark .color-4 {
+  background-color: #7c2d12;
+  color: #fdba74;
+}
+
+.color-5 {
+  background-color: #e9d5ff;
+  color: #7e22ce;
+}
+
+.dark .color-5 {
+  background-color: #581c87;
+  color: #d8b4fe;
+}
