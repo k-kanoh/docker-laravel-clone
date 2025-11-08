@@ -86,3 +86,5 @@ pint:
 	docker compose exec app ./vendor/bin/pint -v
 pint-test:
 	docker compose exec app ./vendor/bin/pint -v --test
+phpstan:
+	docker compose exec app ./vendor/bin/phpstan analyse --memory-limit=2G

@@ -1,0 +1,50 @@
+name: PHPStan Static Analysis
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  phpstan:
+    name: PHPStan Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: src/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        working-directory: ./src
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Copy .env.example to .env
+        working-directory: ./src
+        run: cp .env.example .env
+
+      - name: Generate application key
+        working-directory: ./src
+        run: php artisan key:generate
+
+      - name: Run PHPStan
+        working-directory: ./src
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G --error-format=github
