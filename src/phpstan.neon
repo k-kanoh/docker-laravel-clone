@@ -1,0 +1,34 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    # Level 0 is the loosest and level 9 is the strictest
+    # Level 4: Basic checks + dead code detection
+    # This level catches missing required parameters without being overly strict
+    level: 4
+
+    paths:
+        - app
+        - config
+        - database
+        - routes
+
+    # Ignore generated files and third-party code
+    excludePaths:
+        - app/Console/Kernel.php
+        - bootstrap
+        - storage
+        - vendor
+
+    # Fail on checkFunctionNameCase errors (case-sensitive function calls)
+    checkFunctionNameCase: true
+
+    # Report errors even in code that is only occasionally executed
+    reportUnmatchedIgnoredErrors: false
+
+    # Ignore errors in migrations (often contain raw SQL)
+    ignoreErrors:
+        # Ignore dynamic properties in migrations
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9_]+\.#'
+        # Ignore $this in Artisan command closures (routes/console.php)
+        - '#Undefined variable: \$this#'
