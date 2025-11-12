@@ -25,6 +25,12 @@ class SitemapController extends Controller
         $xml .= '<priority>0.6</priority>';
         $xml .= '</url>';
 
+        $xml .= '<url>';
+        $xml .= '<loc>' . url('/a5m2reverse.html') . '</loc>';
+        $xml .= '<changefreq>yearly</changefreq>';
+        $xml .= '<priority>0.6</priority>';
+        $xml .= '</url>';
+
         $articles = $this->getArticles(false);
 
         foreach ($articles as $article) {
