@@ -159,6 +159,16 @@
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">開発中</p>
                   </a>
                 </li>
+                <li class="rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800">
+                  <a class="block rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700" href="/a5m2reverse.html">
+                    <div class="text-lg font-semibold text-yellow-600 dark:text-yellow-400">
+                      ReverseDDL
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                      A5:SQL Mk-2のテーブル定義書からCREATE TABLE文を逆生成します。
+                    </p>
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
