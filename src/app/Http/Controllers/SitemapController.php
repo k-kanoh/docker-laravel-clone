@@ -26,6 +26,12 @@ class SitemapController extends Controller
         $xml .= '</url>';
 
         $xml .= '<url>';
+        $xml .= '<loc>' . url('/barcode') . '</loc>';
+        $xml .= '<changefreq>yearly</changefreq>';
+        $xml .= '<priority>0.6</priority>';
+        $xml .= '</url>';
+
+        $xml .= '<url>';
         $xml .= '<loc>' . url('/a5m2reverse.html') . '</loc>';
         $xml .= '<changefreq>yearly</changefreq>';
         $xml .= '<priority>0.6</priority>';
