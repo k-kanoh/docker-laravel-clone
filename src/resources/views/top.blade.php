@@ -32,7 +32,7 @@
       }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    @vite(["resources/css/app.css", "resources/js/app.js"])
+    @vite(["resources/css/app.css"])
   </head>
 
   <body class="font-sans antialiased">
@@ -180,9 +180,11 @@
                     </a>
                   </li>
                   <li class="rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800">
-                    <a class="pointer-events-none block rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700" href="/barcode">
-                      <div class="text-lg font-semibold text-gray-400">Barcode Reader</div>
-                      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">開発中</p>
+                    <a class="block rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700" href="/barcode">
+                      <div class="text-lg font-semibold text-yellow-600 dark:text-yellow-400">代理バーコードリーダー</div>
+                      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        PC等カメラを持たない端末でスマホを利用して一次元バーコード/QRコードを読み取ります。
+                      </p>
                     </a>
                   </li>
                   <li class="rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800">

@@ -9,9 +9,11 @@ export default defineConfig({
         "resources/css/b.css",
         "resources/css/c.css",
         "resources/css/app.css",
-        "resources/js/app.js",
       ],
       refresh: true,
     }),
   ],
+  server: {
+    cors: true,
+  },
 });

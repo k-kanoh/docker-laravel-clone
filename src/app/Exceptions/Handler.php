@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 
 class Handler extends ExceptionHandler
 {
@@ -21,10 +21,15 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
-    public function register(): void
+    public function register() : void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        // 429は日本語Jsonで返す
+        $this->renderable(function(ThrottleRequestsException $_e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'API制限に引っ掛かりました'], 429);
+            }
+
+            return null;
         });
     }
 }
