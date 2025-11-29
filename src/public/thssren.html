@@ -36,9 +36,15 @@
         animation: flash-warning 1s ease-in-out 3;
       }
     </style>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+      [x-cloak] {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <div class="mx-auto max-w-4xl p-4">
+    <div class="mx-auto max-w-4xl p-4" x-data="thssren()">
       <h1 class="mb-2 text-3xl font-bold">thssren(東方スクショリネーマー)</h1>
       <p class="mb-8 text-gray-600">歯抜けになった東方スクショファイルを000から振りなおします。</p>
 
@@ -47,184 +53,140 @@
         <input
           type="text"
           id="directoryPath"
+          x-model="directoryPath"
+          @input="savePath()"
           class="box-border w-full rounded border border-gray-300 px-3 py-2 font-mono text-sm focus:border-blue-500 focus:shadow-[0_0_0_0.2rem_rgba(0,123,255,0.25)] focus:outline-none"
           placeholder="C:\Users\onmaeni\AppData\Roaming\ShanghaiAlice\th20\snapshot"
         />
         <div class="mt-1 text-xs text-gray-500">例: C:\Users\onmaeni\AppData\Roaming\ShanghaiAlice\th20\snapshot</div>
       </div>
 
-      <div id="dropZone" class="my-5 rounded-xl border-4 border-dashed border-gray-300 bg-gray-50 p-16 text-center transition-all duration-200">
+      <div
+        class="my-5 rounded-xl border-4 border-dashed p-16 text-center transition-all duration-200"
+        :class="isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50'"
+        @dragover.prevent="isDragging = true"
+        @dragleave.prevent="isDragging = false"
+        @drop.prevent="handleDrop($event)"
+      >
         <p class="p-4 text-gray-700">画像ファイル（BMPまたはPNGファイル）をここにドロップしてください</p>
       </div>
 
-      <div id="results" class="hidden">
+      <div x-show="renameCommands.length" x-cloak>
         <div class="mb-2 flex flex-wrap items-end justify-between">
-          <h2 id="resultCount" class="text-xl font-semibold">生成されたリネームコマンド</h2>
+          <h2 class="text-xl font-semibold">生成されたリネームコマンド (<span x-text="renameCommands.length"></span>件)</h2>
           <div class="flex gap-2">
-            <button id="copyButton" class="cursor-pointer rounded border-none bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700">
+            <button @click="copyToClipboard()" class="cursor-pointer rounded border-none bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700">
               クリップボードにコピー
             </button>
-            <button id="clearButton" class="cursor-pointer rounded border-none bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-700">クリア</button>
+            <button @click="clearAll()" class="cursor-pointer rounded border-none bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-700">クリア</button>
           </div>
         </div>
-        <div id="commandList" class="max-h-[370px] overflow-y-auto rounded border border-gray-200 bg-gray-50"></div>
+        <div class="max-h-[370px] overflow-y-auto rounded border border-gray-200 bg-gray-50">
+          <template x-for="(command, i) in renameCommands" :key="i">
+            <div class="break-all border-b border-gray-200 px-3 py-2 font-mono text-sm last:border-b-0" x-html="formatCommand(command)"></div>
+          </template>
+        </div>
       </div>
     </div>
 
     <script>
-      let renameCommands = [];
-      let originalFiles = [];
+      function thssren() {
+        return {
+          directoryPath: localStorage.getItem("thssrendir") || "",
+          originalFiles: [],
+          renameCommands: [],
+          isDragging: false,
+          isFlashing: false,
 
-      const directoryPath = document.getElementById("directoryPath");
-      const dropZone = document.getElementById("dropZone");
-      const results = document.getElementById("results");
-      const commandList = document.getElementById("commandList");
-      const resultCount = document.getElementById("resultCount");
-      const copyButton = document.getElementById("copyButton");
-      const clearButton = document.getElementById("clearButton");
+          savePath() {
+            localStorage.setItem("thssrendir", this.directoryPath);
+            if (this.originalFiles.length > 0) {
+              this.processFiles(this.originalFiles);
+            }
+          },
 
-      const savedPath = localStorage.getItem("thssrendir");
-      if (savedPath) {
-        directoryPath.value = savedPath;
-      }
+          handleDrop(event) {
+            this.isDragging = false;
+            const files = Array.from(event.dataTransfer.files);
+            const imageFiles = files.filter((file) => /\.(bmp|png)$/i.test(file.name));
 
-      directoryPath.addEventListener("input", () => {
-        localStorage.setItem("thssrendir", directoryPath.value);
-
-        if (originalFiles.length > 0) {
-          regenerateCommands();
-        }
-      });
-
-      dropZone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("border-gray-300", "bg-gray-50");
-        dropZone.classList.add("border-blue-500", "bg-blue-50");
-      });
-
-      dropZone.addEventListener("dragleave", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("border-blue-500", "bg-blue-50");
-        dropZone.classList.add("border-gray-300", "bg-gray-50");
-      });
-
-      dropZone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropZone.classList.remove("border-blue-500", "bg-blue-50");
-        dropZone.classList.add("border-gray-300", "bg-gray-50");
-
-        const files = Array.from(e.dataTransfer.files);
-        const imageFiles = files.filter((file) => /\.(bmp|png)$/i.test(file.name));
-
-        if (imageFiles.length === 0) {
-          alert("BMPまたはPNGファイルをドロップしてください");
-          return;
-        }
-
-        originalFiles = imageFiles;
-        processFiles(imageFiles);
-      });
-
-      function regenerateCommands() {
-        if (originalFiles.length > 0) {
-          processFiles(originalFiles);
-        }
-      }
-
-      function processFiles(files) {
-        const sortedFiles = files.sort((a, b) => {
-          const pattern = /([0-9]{3,})\.(bmp|png)$/i;
-          const matchA = a.name.match(pattern);
-          const matchB = b.name.match(pattern);
-
-          if (matchA && matchB) {
-            const numA = Number(matchA[1]);
-            const numB = Number(matchB[1]);
-            return numA - numB;
-          }
-
-          return a.name.localeCompare(b.name);
-        });
-
-        const pattern = /(th[0-9_]*?)[0-9]{3,}\.(bmp|png)$/i;
-        const path = directoryPath.value.trim();
-
-        renameCommands = [];
-        let counter = 0;
-
-        sortedFiles.forEach((file) => {
-          const match = file.name.match(pattern);
-          if (match) {
-            const prefix = match[1];
-            const extension = match[2];
-            const newName = `${prefix}${counter.toString().padStart(3, "0")}.${extension}`;
-
-            if (path) {
-              const normalizedPath = path.endsWith("\\") ? path : path + "\\";
-              const oldPath = `"${normalizedPath}${file.name}"`;
-              const newNameOnly = `"${newName}"`;
-              renameCommands.push(`rename ${oldPath} ${newNameOnly}`);
-            } else {
-              const oldName = `"${file.name}"`;
-              const newNameQuoted = `"${newName}"`;
-              renameCommands.push(`rename ${oldName} ${newNameQuoted}`);
+            if (imageFiles.length === 0) {
+              alert("BMPまたはPNGファイルをドロップしてください");
+              return;
             }
 
-            counter++;
-          }
-        });
+            this.originalFiles = imageFiles;
+            this.processFiles(imageFiles);
+          },
 
-        displayResults();
-      }
+          processFiles(files) {
+            const sortedFiles = [...files].sort((a, b) => {
+              const pattern = /([0-9]{3,})\.(bmp|png)$/i;
+              const matchA = a.name.match(pattern);
+              const matchB = b.name.match(pattern);
 
-      function displayResults() {
-        if (renameCommands.length === 0) return;
-
-        const path = directoryPath.value.trim();
-        resultCount.textContent = `生成されたリネームコマンド (${renameCommands.length}件)`;
-
-        commandList.innerHTML = renameCommands
-          .map((command) => {
-            let displayCommand = command;
-            if (path) {
-              const normalizedPath = path.endsWith("\\") ? path : path + "\\";
-              const pathRegex = new RegExp(`"(${normalizedPath.replace(/[\\]/g, "\\\\")}[^"]+)"`, "g");
-              displayCommand = command.replace(pathRegex, (match, fullPath) => {
-                const pathPart = normalizedPath;
-                const filePart = fullPath.substring(normalizedPath.length);
-                return `"<span class="path-highlight">${pathPart}</span>${filePart}"`;
-              });
-            }
-            return `<div class="break-all border-b border-gray-200 px-3 py-2 font-mono text-sm last:border-b-0">${displayCommand}</div>`;
-          })
-          .join("");
-
-        results.classList.remove("hidden");
-      }
-
-      copyButton.addEventListener("click", () => {
-        const text = renameCommands.map((command) => `${command}\n`).join("");
-        navigator.clipboard.writeText(text).then(() => {
-          alert("クリップボードにコピーしました！\nコマンド実行前に今一度ディレクトリパスを確認してください！");
-
-          const pathHighlights = document.querySelectorAll(".path-highlight");
-          pathHighlights.forEach((element) => {
-            element.classList.add("flash-path");
-          });
-
-          setTimeout(() => {
-            pathHighlights.forEach((element) => {
-              element.classList.remove("flash-path");
+              if (matchA && matchB) {
+                return Number(matchA[1]) - Number(matchB[1]);
+              }
+              return a.name.localeCompare(b.name);
             });
-          }, 3000);
-        });
-      });
 
-      clearButton.addEventListener("click", () => {
-        renameCommands = [];
-        originalFiles = [];
-        results.classList.add("hidden");
-      });
+            const pattern = /(th[0-9_]*?)[0-9]{3,}\.(bmp|png)$/i;
+            const path = this.directoryPath.trim();
+
+            this.renameCommands = [];
+            let counter = 0;
+
+            sortedFiles.forEach((file) => {
+              const match = file.name.match(pattern);
+              if (match) {
+                const prefix = match[1];
+                const extension = match[2];
+                const newName = `${prefix}${counter.toString().padStart(3, "0")}.${extension}`;
+
+                if (path) {
+                  const normalizedPath = path.endsWith("\\") ? path : path + "\\";
+                  this.renameCommands.push(`rename "${normalizedPath}${file.name}" "${newName}"`);
+                } else {
+                  this.renameCommands.push(`rename "${file.name}" "${newName}"`);
+                }
+                counter++;
+              }
+            });
+          },
+
+          formatCommand(command) {
+            const path = this.directoryPath.trim();
+            if (!path) return command;
+
+            const normalizedPath = path.endsWith("\\") ? path : path + "\\";
+            const escapedPath = normalizedPath.replace(/[\\]/g, "\\\\");
+            const pathRegex = new RegExp(`"(${escapedPath}[^"]+)"`, "g");
+
+            return command.replace(pathRegex, (match, fullPath) => {
+              const filePart = fullPath.substring(normalizedPath.length);
+              const className = this.isFlashing ? "path-highlight flash-path" : "path-highlight";
+              return `"<span class="${className}">${normalizedPath}</span>${filePart}"`;
+            });
+          },
+
+          async copyToClipboard() {
+            const text = this.renameCommands.map((cmd) => `${cmd}\n`).join("");
+            await navigator.clipboard.writeText(text);
+            alert("クリップボードにコピーしました！\nコマンド実行前に今一度ディレクトリパスを確認してください！");
+
+            this.isFlashing = true;
+            setTimeout(() => {
+              this.isFlashing = false;
+            }, 3000);
+          },
+
+          clearAll() {
+            this.renameCommands = [];
+            this.originalFiles = [];
+          },
+        };
+      }
     </script>
   </body>
 </html>
